@@ -1,3 +1,0 @@
-// frame 1
-// frame 3
-// frame 5

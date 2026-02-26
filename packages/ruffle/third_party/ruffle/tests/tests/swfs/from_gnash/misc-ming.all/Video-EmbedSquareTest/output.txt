@@ -1,2 +1,0 @@
-_level0.vid
-You should still see the video frame. Click to replay

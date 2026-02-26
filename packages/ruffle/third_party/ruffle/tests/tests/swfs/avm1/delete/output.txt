@@ -1,3 +1,0 @@
-x: thing
-x: thing
-x: undefined

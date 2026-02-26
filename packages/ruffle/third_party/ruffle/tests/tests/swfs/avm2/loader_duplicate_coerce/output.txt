@@ -1,3 +1,0 @@
-ConcreteFromMain.fromMain()
-Constructed child: myDuplicate = [object ConcreteFromChild]
-ConcreteFromChild.fromMain()

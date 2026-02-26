@@ -1,4 +1,0 @@
-Caught error: ReferenceError: Error #1065: Variable MissingClass is not defined.
-Caught error: ReferenceError: Error #1065: Variable OtherMissingClass is not defined.
-Has definition: true
-Got class: [class MovieClip]

@@ -1,2 +1,0 @@
-regex non-match returns not null with /gi PASSED!
-regex non-match returns null with /i PASSED!

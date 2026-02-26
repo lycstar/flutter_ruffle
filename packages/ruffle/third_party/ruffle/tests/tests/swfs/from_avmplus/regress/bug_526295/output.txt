@@ -1,2 +1,0 @@
-goodCode PASSED!
-badCode PASSED!

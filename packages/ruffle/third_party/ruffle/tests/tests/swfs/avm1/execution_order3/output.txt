@@ -1,4 +1,0 @@
-root frame 1
-gotoAndPlay(3)
-childA frame 1
-root frame 3

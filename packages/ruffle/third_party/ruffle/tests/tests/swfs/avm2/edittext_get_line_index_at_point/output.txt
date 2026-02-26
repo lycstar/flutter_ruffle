@@ -1,2 +1,0 @@
-scrollh = 50
-maxscrollh = 320

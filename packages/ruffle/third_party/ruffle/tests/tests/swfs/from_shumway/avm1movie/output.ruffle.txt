@@ -1,4 +1,0 @@
-loading started
-avm1-loadee loaded
-avm1 root `this`: _level-61440
-avm1 root `_parent`: undefined

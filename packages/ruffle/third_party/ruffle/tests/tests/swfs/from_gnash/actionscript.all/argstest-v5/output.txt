@@ -1,4 +1,0 @@
-SWF5
-
-[array.as debug-22403-05c7ba106]
-PASSED: Nothing crashed gnash

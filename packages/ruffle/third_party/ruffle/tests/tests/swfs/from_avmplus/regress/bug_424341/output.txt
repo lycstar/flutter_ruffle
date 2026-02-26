@@ -1,1 +1,0 @@
-Bug 424341 Regression: VerifyError when setting global const. PASSED!

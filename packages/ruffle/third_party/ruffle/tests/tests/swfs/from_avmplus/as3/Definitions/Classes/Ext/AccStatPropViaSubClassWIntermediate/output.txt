@@ -1,3 +1,0 @@
-access static property of base class using sub and intermediate PASSED!
-*** access static property of base class using  sub and intermediate *** PASSED!
-obj.getString() PASSED!

@@ -1,1 +1,0 @@
-delete non-existent dynamic property PASSED!

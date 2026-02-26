@@ -1,3 +1,0 @@
-gotoAndPlay(3)
-child frame 1
-gotoAndStop(2)

@@ -1,8 +1,0 @@
-#version 4
-program
- minorversion 16
- majorversion 46
-
- #include "Test.script.asasm"
-
-end ; program

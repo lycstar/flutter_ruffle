@@ -1,2 +1,0 @@
-delete instantiated object's var PASSED!
-account.name PASSED!

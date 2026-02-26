@@ -1,3 +1,0 @@
-call missing base method via super PASSED!
-call private base method via super PASSED!
-call internal base method from different package via super PASSED!

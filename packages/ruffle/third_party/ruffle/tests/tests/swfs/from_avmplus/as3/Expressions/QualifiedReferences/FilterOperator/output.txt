@@ -1,2 +1,0 @@
-Use wildcard operator on an array PASSED!
-Use wildcard operator on an object PASSED!

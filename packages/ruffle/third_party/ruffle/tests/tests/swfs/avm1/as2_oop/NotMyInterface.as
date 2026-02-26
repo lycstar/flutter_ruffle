@@ -1,3 +1,0 @@
-﻿interface NotMyInterface {
-	function c();
-}

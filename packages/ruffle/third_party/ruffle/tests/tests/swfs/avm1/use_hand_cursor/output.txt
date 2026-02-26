@@ -1,8 +1,0 @@
-// Button.useHandCursor default (true)
-true
-// Button.useHandCursor set to false
-false
-// MovieClip.useHandCursor default (true)
-true
-// MovieClip.useHandCursor set to false
-false

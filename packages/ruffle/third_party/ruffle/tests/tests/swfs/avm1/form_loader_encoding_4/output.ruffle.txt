@@ -1,3 +1,0 @@
-UTF8: ÄÖÜ ß - 片仮名
-Iso Latin-1: ��� � - Valid UTF-8 again - ��� � - Valid again - ��� �
-Shift Jis: �Љ��� - Valid UTF-8 again - �Љ��� - Valid again - �Љ���

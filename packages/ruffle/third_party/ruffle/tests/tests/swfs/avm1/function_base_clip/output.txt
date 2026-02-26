@@ -1,9 +1,0 @@
-// clip.f(2)
-// this:
-_level0.clip
-// foo: 
-clip foo
-// gotoAndStop(2)
-// _root.clip._currentframe:
-2
-

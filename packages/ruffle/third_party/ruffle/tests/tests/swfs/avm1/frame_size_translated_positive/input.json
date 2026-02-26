@@ -1,5 +1,0 @@
-[
-  { "type": "MouseMove", "pos": [50.0, 50.0] },
-  { "type": "MouseDown", "pos": [50.0, 50.0], "btn": "Left" },
-  { "type": "MouseUp", "pos": [50.0, 50.0], "btn": "Left" }
-]

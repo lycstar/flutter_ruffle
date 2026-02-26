@@ -1,1 +1,0 @@
-This test asserts at arr[0] assignment above if bug is present PASSED!

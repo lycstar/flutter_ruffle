@@ -1,4 +1,0 @@
-unload clipEvent
-unload clipEvent end
-unload handler
-unload handler end

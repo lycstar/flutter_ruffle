@@ -1,2 +1,0 @@
-*** Access function added to a dynamic class *** PASSED!
-Obj.foo() PASSED!

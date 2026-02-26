@@ -1,2 +1,0 @@
-PASSED: func used original dictionary 
-END OF TEST

@@ -1,3 +1,0 @@
-Caught error!
-ArgumentError
-ArgumentError: My Error

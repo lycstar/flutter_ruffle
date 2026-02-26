@@ -1,2 +1,0 @@
-const public property PASSED!
-const private property PASSED!

@@ -1,2 +1,0 @@
-XML has loaded!
-<test>What a load!</test>

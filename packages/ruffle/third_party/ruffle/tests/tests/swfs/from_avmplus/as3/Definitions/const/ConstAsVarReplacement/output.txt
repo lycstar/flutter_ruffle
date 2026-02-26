@@ -1,1 +1,0 @@
-const myConstVar = 10; PASSED!

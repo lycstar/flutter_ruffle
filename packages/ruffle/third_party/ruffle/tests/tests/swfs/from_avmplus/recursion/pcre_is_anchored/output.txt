@@ -1,2 +1,0 @@
-str.search(re) PASSED!
-str.search(re) FAILED! expected: -1 got: 0

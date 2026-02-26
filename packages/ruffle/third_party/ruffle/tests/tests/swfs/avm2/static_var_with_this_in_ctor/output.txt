@@ -1,2 +1,0 @@
-Test(null)
-[object Test]

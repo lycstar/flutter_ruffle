@@ -1,4 +1,0 @@
-TESTOBJ.returnRest() PASSED!
-returnRest() PASSED!
-TESTOBJ1.returnRest() PASSED!
-returnRestNoPackage() PASSED!

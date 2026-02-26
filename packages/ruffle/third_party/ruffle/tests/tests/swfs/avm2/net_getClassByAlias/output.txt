@@ -1,3 +1,0 @@
-ReferenceError: Error #1014: Class toString could not be found.
-ReferenceError: Error #1014: Class MyClass could not be found.
-[class TestClass]

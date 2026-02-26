@@ -1,1 +1,0 @@
-Calling function with 1 uint argument PASSED!

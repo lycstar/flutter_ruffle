@@ -1,1 +1,0 @@
-Attempt to modify package const globally PASSED!

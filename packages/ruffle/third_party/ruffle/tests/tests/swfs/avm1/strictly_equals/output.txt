@@ -1,7 +1,0 @@
-2 === 2
-true === true
-false === false
-"abc" === "abc"
-undefined === undefined
-NaN === NaN
-null === null

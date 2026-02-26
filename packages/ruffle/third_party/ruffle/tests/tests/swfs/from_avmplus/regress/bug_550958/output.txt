@@ -1,3 +1,0 @@
-UPPERCASE PASSED!
-lowercase PASSED!
-mixedcase PASSED!

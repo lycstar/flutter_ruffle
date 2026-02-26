@@ -1,1 +1,0 @@
-Clicked at: 18 17 on: [object Loader] (firstLoader)

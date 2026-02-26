@@ -1,7 +1,0 @@
-2 != 5
-true != false
-0 != undefined
-NaN != NaN
-undefined != NaN
-0 != null
-NaN != null

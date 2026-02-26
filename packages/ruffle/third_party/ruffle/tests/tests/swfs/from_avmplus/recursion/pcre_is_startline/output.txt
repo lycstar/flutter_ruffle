@@ -1,2 +1,0 @@
-strAlt1.search(re) PASSED!
-strAlt1.search(re) FAILED! expected: -1 got: 0

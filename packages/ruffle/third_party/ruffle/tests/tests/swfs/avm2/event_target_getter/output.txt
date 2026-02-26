@@ -1,5 +1,0 @@
-// testing trivial getter
-in get target()
-in clone()
-// testing 1-cycle-delayed getter
-in get target()

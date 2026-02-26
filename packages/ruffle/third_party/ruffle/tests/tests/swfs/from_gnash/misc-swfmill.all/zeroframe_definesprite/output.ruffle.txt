@@ -1,3 +1,0 @@
-a00b11c12d001
-FAILED: expected a00b11c22d000        
-END OF TEST

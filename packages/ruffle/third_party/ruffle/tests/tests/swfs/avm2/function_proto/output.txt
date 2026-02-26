@@ -1,5 +1,0 @@
-function Function() {}
-undefined
-undefined
-undefined
-[object Object]

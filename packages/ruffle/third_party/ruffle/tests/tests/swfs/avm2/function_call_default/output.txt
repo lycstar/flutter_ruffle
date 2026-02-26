@@ -1,6 +1,0 @@
-arg1
-arg2
-Default string
-arg_again_1
-Default string 1
-Default string 2

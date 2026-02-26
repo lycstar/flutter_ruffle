@@ -1,3 +1,0 @@
-Attaching asset
-Before stop
-After stop

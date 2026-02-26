@@ -1,3 +1,0 @@
-access static property in namespace of base class using subclass PASSED!
-access static property of base class using subclass PASSED!
-access static property of base class in subclass with this.foo PASSED!

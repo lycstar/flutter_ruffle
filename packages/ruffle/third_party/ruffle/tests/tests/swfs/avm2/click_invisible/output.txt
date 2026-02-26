@@ -1,3 +1,0 @@
-Clicked null (67, 49)
-Clicked null (222, 61)
-Clicked null (316, 12)

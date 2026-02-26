@@ -1,1 +1,0 @@
-iso_var=Iso Latin-1: ÄÖÜ ß - Valid UTF-8 again - ÄÖÜ ß - Valid again - ÄÖÜ ß

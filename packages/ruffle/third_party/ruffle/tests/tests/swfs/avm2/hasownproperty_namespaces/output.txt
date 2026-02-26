@@ -1,2 +1,0 @@
-///new ES4Class.hasOwnProperty("as3_prop");
-false

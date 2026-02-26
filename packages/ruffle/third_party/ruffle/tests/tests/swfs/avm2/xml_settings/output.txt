@@ -1,6 +1,0 @@
-XML.settings(): [object Object]
-settings.ignoreComments = true
-settings.ignoreWhitespace = true
-settings.ignoreProcessingInstructions = true
-settings.prettyIndent = 2
-settings.prettyPrinting = true

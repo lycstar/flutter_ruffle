@@ -1,3 +1,0 @@
-Ran class initializer
-Ran class initializer
-Ran instance initializer

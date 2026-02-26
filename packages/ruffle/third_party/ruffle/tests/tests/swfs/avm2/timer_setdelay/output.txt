@@ -1,5 +1,0 @@
-Starting
-timerEvent 1
-timerEvent 2
-timerEvent 3
-timerComplete 3

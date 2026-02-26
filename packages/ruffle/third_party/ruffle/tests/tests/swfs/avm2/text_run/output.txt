@@ -1,7 +1,0 @@
-[object TextRun]
-1
-2
-[object TextFormat]
-45
-54
-null

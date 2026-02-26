@@ -1,2 +1,0 @@
-f: bad
-F: [type Function]

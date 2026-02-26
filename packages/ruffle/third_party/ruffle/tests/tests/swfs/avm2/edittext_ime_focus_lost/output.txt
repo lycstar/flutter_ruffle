@@ -1,9 +1,0 @@
-Before: q
-  1
-  1
-  1
-input q
-After: q
-  1
-  1
-  1

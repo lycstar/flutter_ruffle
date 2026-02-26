@@ -1,4 +1,0 @@
-﻿package {
-	public interface MyDuplicate {
-	}
-}

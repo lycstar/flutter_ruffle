@@ -1,2 +1,0 @@
-Asserting for TypeError PASSED!
-new XML("<a><b:c xmlns:b="abc"></d:c></a>") PASSED!

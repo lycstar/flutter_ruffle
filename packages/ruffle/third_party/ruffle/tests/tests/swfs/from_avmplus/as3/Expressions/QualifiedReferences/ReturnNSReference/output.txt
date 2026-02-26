@@ -1,3 +1,0 @@
-function getTeam1(){return Baseball::teamName} PASSED!
-function getTeam2(){return Basketball::teamName} PASSED!
-function getTeam3(){return Hockey::teamName} PASSED!

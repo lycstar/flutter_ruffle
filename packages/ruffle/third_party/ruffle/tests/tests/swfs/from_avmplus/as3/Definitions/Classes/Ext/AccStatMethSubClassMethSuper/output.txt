@@ -1,1 +1,0 @@
-access static method of base class using 'super.foo()' PASSED!

@@ -1,3 +1,0 @@
-first handler called
-CustomEvent cloned!
-TypeError: Error #2007: Parameter event must be non-null.

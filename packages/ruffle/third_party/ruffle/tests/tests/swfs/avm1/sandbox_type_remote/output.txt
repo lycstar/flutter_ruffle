@@ -1,3 +1,0 @@
-Current sandbox type: localWithNetwork
-[network] Current sandbox type: remote
-[no network] Current sandbox type: remote

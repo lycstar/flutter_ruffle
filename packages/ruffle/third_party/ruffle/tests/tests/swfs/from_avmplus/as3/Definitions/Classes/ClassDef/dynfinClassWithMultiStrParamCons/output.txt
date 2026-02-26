@@ -1,3 +1,0 @@
-calling public Instance method for testing constructor with single string parameter PASSED!
-calling public Instance method for testing constructor with concatenated string PASSED!
-calling public Instance method for testing constructor with concatenated string PASSED!

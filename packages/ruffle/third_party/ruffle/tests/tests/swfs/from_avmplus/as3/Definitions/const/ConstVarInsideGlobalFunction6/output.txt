@@ -1,4 +1,0 @@
-Initialize global typed function local const with formal PASSED!
-Initialize global untyped function local const with formal PASSED!
-Initialize global typed function local const with a const PASSED!
-Initialize global untyped function local const with a const PASSED!

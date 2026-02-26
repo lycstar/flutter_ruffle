@@ -1,2 +1,0 @@
-(new Date(NaN)).getDay() PASSED!
-Date.prototype.getDay.length PASSED!

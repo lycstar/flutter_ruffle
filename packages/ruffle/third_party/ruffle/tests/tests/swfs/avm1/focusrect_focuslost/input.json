@@ -1,6 +1,0 @@
-[
-  { "type": "KeyDown", "key": "Tab" },
-  { "type": "FocusLost" },
-  { "type": "FocusGained" },
-  { "type": "Wait" }
-]

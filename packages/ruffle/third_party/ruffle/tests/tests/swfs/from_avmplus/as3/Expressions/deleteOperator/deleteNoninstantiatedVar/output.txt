@@ -1,2 +1,0 @@
-delete non-instantiated variable PASSED!
-Account.name PASSED!

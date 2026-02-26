@@ -1,2 +1,0 @@
-Mousedown on child_obj at: 240 183
-Mousedown on parent_obj at: 262 229

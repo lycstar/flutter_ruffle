@@ -1,5 +1,0 @@
-Event: onLoadStart
-Event: onLoadProgress
-Event: onLoadComplete
-Child movie loaded!
-Event: onLoadInit

@@ -1,4 +1,0 @@
-//freeFunction.valueOf() === freeFunction
-true
-//namedFunction.valueOf() === namedFunction
-true

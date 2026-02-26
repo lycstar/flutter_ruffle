@@ -1,8 +1,0 @@
-# Browsers that we support
-
-defaults
-chrome >= 87
-edge >= 87
-firefox >= 94
-iOS >= 14.1
-safari >= 14.1

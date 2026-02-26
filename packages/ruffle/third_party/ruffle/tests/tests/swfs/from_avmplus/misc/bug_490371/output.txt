@@ -1,2 +1,0 @@
-substr + s16b PASSED!
-s16a PASSED!

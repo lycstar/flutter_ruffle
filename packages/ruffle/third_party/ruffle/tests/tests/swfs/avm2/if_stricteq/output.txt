@@ -1,6 +1,0 @@
-2 === 2
-true === true
-false === false
-"abc" === "abc"
-undefined === undefined
-null === null

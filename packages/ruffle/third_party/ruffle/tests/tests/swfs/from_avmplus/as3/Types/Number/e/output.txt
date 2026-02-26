@@ -1,8 +1,0 @@
-Number.E PASSED!
-typeof Number.E PASSED!
-Number.E - DontDelete PASSED!
-Number.E is still ok PASSED!
-Number.E - DontEnum PASSED!
-Number.E is no enumberable PASSED!
-Number.E - ReadOnly PASSED!
-Number.E is still here PASSED!

@@ -1,6 +1,0 @@
-null
-null
-[object ApplicationDomain]
-null
-0
-0

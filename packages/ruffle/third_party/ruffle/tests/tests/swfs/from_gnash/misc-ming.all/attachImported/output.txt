@@ -1,2 +1,0 @@
-PASSED: 60.1 == 60.1
-END_OF_TEST

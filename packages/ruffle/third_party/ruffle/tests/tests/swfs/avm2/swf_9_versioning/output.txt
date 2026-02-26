@@ -1,2 +1,0 @@
-Sprite.startDrag: function Function() {}
-Sprite.stopDrag : function Function() {}

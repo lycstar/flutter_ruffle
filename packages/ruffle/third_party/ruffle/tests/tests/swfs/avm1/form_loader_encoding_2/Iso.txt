@@ -1,1 +1,0 @@
-iso_var=Iso Latin-1: ÄÖÜ ß

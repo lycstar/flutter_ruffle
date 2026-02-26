@@ -1,1 +1,0 @@
-hasAtomProperty for Vector should not throw an exception PASSED!

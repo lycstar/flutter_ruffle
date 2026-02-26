@@ -1,8 +1,0 @@
-obj = new Object()
-y: test y
-x: test x
-
-obj = new (cons_container.object)()
-y: test y
-x: test x
-

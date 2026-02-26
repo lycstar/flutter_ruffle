@@ -1,4 +1,0 @@
-num_ticks = 126
-
-[player_options]
-with_renderer = { optional = false, quality = "low" }

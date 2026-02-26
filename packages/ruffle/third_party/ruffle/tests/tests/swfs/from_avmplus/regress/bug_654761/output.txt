@@ -1,2 +1,0 @@
-Asserting for TypeError PASSED!
-regression test bug 654761 PASSED!

@@ -1,6 +1,0 @@
-connected
-true
-data:
-Hello!
-Closing socket in onData handler
-Successfully closed socket

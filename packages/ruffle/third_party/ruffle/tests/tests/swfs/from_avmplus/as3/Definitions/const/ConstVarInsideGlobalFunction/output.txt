@@ -1,1 +1,0 @@
-Calling a global function which declares a local const variable PASSED!

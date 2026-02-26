@@ -1,2 +1,0 @@
-delete non-instantiated function PASSED!
-Account.func PASSED!

@@ -1,2 +1,0 @@
-SWF < 11, 1.0/Math.min(-0.0, 0.0) PASSED!
-SWF < 11, 1.0/Math.max(0.0, -0.0) PASSED!

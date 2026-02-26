@@ -1,4 +1,0 @@
-undefined
-c
-b
-a

@@ -1,1 +1,0 @@
-Ref to NS returned from another class PASSED!

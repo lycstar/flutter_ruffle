@@ -1,2 +1,0 @@
-// MP.hitTestObject(Btn1)
-true

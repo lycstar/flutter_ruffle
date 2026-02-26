@@ -1,8 +1,0 @@
-Loading clip1.swf
-Set exampleVariable
-innerClip: _level0.innerClip
-innerClip.exampleVariable: example value
-Loading clip2.swf
-Get exampleVariable: undefined
-innerClip: _level0.innerClip
-innerClip.exampleVariable: undefined

@@ -1,5 +1,0 @@
-One argument
-Two args, first
-Two args, second
-timeline frame 1
-child frame 1

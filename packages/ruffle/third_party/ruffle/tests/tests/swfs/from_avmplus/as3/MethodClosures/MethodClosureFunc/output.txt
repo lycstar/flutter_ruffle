@@ -1,1 +1,0 @@
-Square a function using method closure:  PASSED!

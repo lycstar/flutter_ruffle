@@ -1,4 +1,0 @@
-_level0.button.instance1.onEnterFrame
-_level0.button
-undefined
-undefined

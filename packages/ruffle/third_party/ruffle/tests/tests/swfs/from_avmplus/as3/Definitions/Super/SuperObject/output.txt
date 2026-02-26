@@ -1,1 +1,0 @@
-super statement initializes Object PASSED!

@@ -1,4 +1,0 @@
-[object Shape]
-[object Shape]
-[object Sprite]
-null

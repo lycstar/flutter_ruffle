@@ -1,1 +1,0 @@
-myVar=Hurray&also=The%20test%20passed

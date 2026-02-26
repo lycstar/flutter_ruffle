@@ -1,4 +1,0 @@
-ConcreteFromMain.fromMain()
-Constructed child: myDuplicate = [object ConcreteFromChild]
-targetObj as MyDuplicate: [object ConcreteFromChild]
-ConcreteFromChild.fromMain()

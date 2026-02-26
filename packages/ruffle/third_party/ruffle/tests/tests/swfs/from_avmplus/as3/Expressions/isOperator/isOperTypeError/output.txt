@@ -1,2 +1,0 @@
-is Operator: invalid Type - notAValidType PASSED!
-is Operator: undeclared var on LHS PASSED!

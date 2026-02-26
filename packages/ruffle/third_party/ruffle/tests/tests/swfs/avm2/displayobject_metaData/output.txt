@@ -1,3 +1,0 @@
-this.metaData: null
-this.metaData: [object Object]
-this.metaData === obj: true

@@ -1,4 +1,0 @@
-onRollOver
-onSetFocus
-onRollOut
-onKillFocus

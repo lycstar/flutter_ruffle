@@ -1,2 +1,0 @@
-Hurray
-The test passed

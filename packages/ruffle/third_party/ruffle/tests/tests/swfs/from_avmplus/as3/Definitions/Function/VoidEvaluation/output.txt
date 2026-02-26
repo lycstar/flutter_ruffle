@@ -1,3 +1,0 @@
-Assign function that returns void PASSED!
-Test for g being called PASSED!
-Test for f being called PASSED!

@@ -1,3 +1,0 @@
-CertificateStatus not accessible
-X500DistinguishedName not accessible
-X509Certificate not accessible

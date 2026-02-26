@@ -1,3 +1,0 @@
-Obj: [object <RenamedClass>>]
-lookupOne: [class <RenamedClass>>]
-lookupTwo: [class <RenamedClass>>]

@@ -1,4 +1,0 @@
-global function call
-tracealike: I was called as a method!
-tracealike: I was called by the child movie clip!
-child stopped via child_function

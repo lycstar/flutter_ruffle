@@ -1,2 +1,0 @@
-MY_CONST: true
-MISSING_CONST: false

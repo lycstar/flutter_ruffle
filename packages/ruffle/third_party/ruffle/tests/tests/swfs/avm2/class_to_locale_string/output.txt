@@ -1,2 +1,0 @@
-//ES4Class.toLocaleString()
-[class ES4Class]

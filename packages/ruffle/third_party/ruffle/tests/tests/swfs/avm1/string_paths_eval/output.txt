@@ -1,4 +1,0 @@
-_level0.f1
-hi
-
-bye

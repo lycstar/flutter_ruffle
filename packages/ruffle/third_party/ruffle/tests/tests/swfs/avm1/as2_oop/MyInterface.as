@@ -1,3 +1,0 @@
-﻿interface MyInterface {
-	function a();
-}

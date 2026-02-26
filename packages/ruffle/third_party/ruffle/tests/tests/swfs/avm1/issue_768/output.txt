@@ -1,3 +1,0 @@
-[type Object]
-undefined
-_level0

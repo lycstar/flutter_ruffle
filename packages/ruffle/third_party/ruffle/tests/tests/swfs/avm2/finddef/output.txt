@@ -1,3 +1,0 @@
-[object global]
-[object global]
-ReferenceError: Error #1065: Variable aaa is not defined.

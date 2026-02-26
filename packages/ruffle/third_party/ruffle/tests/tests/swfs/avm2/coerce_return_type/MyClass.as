@@ -1,5 +1,0 @@
-﻿package {
-	public class MyClass {
-		
-	}
-}

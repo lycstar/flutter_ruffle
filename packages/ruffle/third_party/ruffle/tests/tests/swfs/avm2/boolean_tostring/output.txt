@@ -1,8 +1,0 @@
-//(true).toString()
-true
-//(true).valueOf() === true
-true
-//(false).toString()
-false
-//(false).valueOf() === false
-true

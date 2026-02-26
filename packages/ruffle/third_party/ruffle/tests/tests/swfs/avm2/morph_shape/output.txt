@@ -1,2 +1,0 @@
-Caught error: ArgumentError: Error #2012: MorphShape$ class cannot be instantiated. code: 2012
-Child: [object MorphShape] flash.display::MorphShape

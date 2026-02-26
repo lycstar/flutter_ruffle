@@ -1,4 +1,0 @@
-[class PropertyChangeEvent]
-[class ByteArrayAsset]
-[class Test]
-[class Test]

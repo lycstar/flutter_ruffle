@@ -1,6 +1,0 @@
-function Function() {}
-function Function() {}
-no error
-error with id 1065
-99
-no error

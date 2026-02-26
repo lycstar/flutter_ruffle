@@ -1,4 +1,0 @@
-starting
-init finished
-running onMetaData
-0

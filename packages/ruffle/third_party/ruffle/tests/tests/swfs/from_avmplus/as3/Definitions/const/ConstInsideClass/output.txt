@@ -1,1 +1,0 @@
-class MyConstClass { const myVar = 10; }; var Obj = new MyConstClass(); Obj.myVar; PASSED!

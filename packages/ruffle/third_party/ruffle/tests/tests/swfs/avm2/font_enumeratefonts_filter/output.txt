@@ -1,4 +1,0 @@
-TestFont1
-TestFont2
-TestFontNoGlyphs
-TestFontZeroMetrics

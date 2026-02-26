@@ -1,5 +1,0 @@
-Text: 'bc'
-Text: ''
-Text: 'bbc'
-Text: 'bbc'
-Text: 'bcb'

@@ -1,1 +1,0 @@
-package myConsts { const myVar = 10; }; PASSED!

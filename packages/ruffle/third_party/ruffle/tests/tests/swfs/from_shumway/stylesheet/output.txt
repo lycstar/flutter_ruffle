@@ -1,3 +1,0 @@
-Test text
-<red>red via element style</red>
-<p class="green">green via class style</p>

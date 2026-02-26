@@ -1,2 +1,0 @@
-simple implements, method call PASSED!
-simple implements, method call PASSED!

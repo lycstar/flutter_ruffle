@@ -1,6 +1,0 @@
-Loaded sound
-Playing sound
-Callback: Open
-Callback: Progress - 4180 / 4180
-Callback: Complete - 4180 / 4180
-Callback: Finished playback

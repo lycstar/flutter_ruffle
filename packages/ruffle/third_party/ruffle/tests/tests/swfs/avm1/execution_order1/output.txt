@@ -1,5 +1,0 @@
-root 1
-child 1
-child 2
-root 2
-root 3

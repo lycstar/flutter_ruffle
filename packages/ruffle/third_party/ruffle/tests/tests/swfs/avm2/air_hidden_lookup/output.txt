@@ -1,2 +1,0 @@
-flash.net.DatagramSocket is inaccessible from Flash Player
-flash.desktop.IFilePromise is inaccessible from Flash Player
