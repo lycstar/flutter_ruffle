@@ -2,7 +2,11 @@
 
 #ifdef _WIN32
 
+// This must be included before many other Windows headers.
+#include <windows.h>
+
 #include <flutter/method_channel.h>
+#include <flutter/plugin_registrar.h>
 #include <flutter/plugin_registrar_windows.h>
 #include <flutter/standard_method_codec.h>
 #include <flutter/texture_registrar.h>
@@ -15,9 +19,8 @@
 
 namespace {
 
-class RufflePixelBufferTexture : public flutter::PixelBufferTexture {
+class RufflePixelBufferTexture {
  public:
-  /// 更新当前纹理帧（输入像素格式：RGBA8888；平台纹理格式：BGRA8888）。
   void UpdateRgba(const uint8_t* rgba, size_t byte_length, int width, int height) {
     if (width <= 0 || height <= 0) return;
     const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
@@ -40,14 +43,14 @@ class RufflePixelBufferTexture : public flutter::PixelBufferTexture {
     buffer_.height = static_cast<size_t>(height);
   }
 
-  const FlutterDesktopPixelBuffer* CopyPixelBuffer(size_t /*width*/, size_t /*height*/) override {
+  const FlutterDesktopPixelBuffer* CopyPixelBuffer(size_t /*width*/, size_t /*height*/) const {
     std::lock_guard<std::mutex> guard(mutex_);
     if (buffer_.buffer == nullptr) return nullptr;
     return &buffer_;
   }
 
  private:
-  std::mutex mutex_;
+  mutable std::mutex mutex_;
   std::vector<uint8_t> bgra_;
   FlutterDesktopPixelBuffer buffer_ = {};
 };
@@ -56,11 +59,12 @@ class TexturePluginState {
  public:
   explicit TexturePluginState(flutter::TextureRegistrar* registrar) : texture_registrar_(registrar) {}
 
-  /// 创建纹理并返回 textureId。
   int64_t Create() {
     auto texture = std::make_unique<RufflePixelBufferTexture>();
-    auto variant = flutter::TextureVariant(*texture);
-    const int64_t id = texture_registrar_->RegisterTexture(&variant);
+    auto* texture_raw = texture.get();
+    auto variant = std::make_unique<flutter::TextureVariant>(flutter::PixelBufferTexture(
+        [texture_raw](size_t width, size_t height) { return texture_raw->CopyPixelBuffer(width, height); }));
+    const int64_t id = texture_registrar_->RegisterTexture(variant.get());
 
     std::lock_guard<std::mutex> guard(mutex_);
     textures_.emplace(id, std::move(texture));
@@ -68,7 +72,6 @@ class TexturePluginState {
     return id;
   }
 
-  /// 更新纹理帧并通知 Flutter 可用新帧。
   void UpdateRgba(int64_t texture_id, const uint8_t* rgba, size_t len, int width, int height) {
     RufflePixelBufferTexture* texture = nullptr;
     {
@@ -81,21 +84,20 @@ class TexturePluginState {
     texture_registrar_->MarkTextureFrameAvailable(texture_id);
   }
 
-  /// 释放纹理。
   void Dispose(int64_t texture_id) {
+    texture_registrar_->UnregisterTexture(texture_id);
     {
       std::lock_guard<std::mutex> guard(mutex_);
       textures_.erase(texture_id);
       variants_.erase(texture_id);
     }
-    texture_registrar_->UnregisterTexture(texture_id);
   }
 
  private:
   flutter::TextureRegistrar* texture_registrar_;
   std::mutex mutex_;
   std::unordered_map<int64_t, std::unique_ptr<RufflePixelBufferTexture>> textures_;
-  std::unordered_map<int64_t, flutter::TextureVariant> variants_;
+  std::unordered_map<int64_t, std::unique_ptr<flutter::TextureVariant>> variants_;
 };
 
 class RuffleTexturePlugin : public flutter::Plugin {
@@ -132,12 +134,12 @@ class RuffleTexturePlugin : public flutter::Plugin {
       auto read_i64 = [&](const char* key, int64_t* out) -> bool {
         auto it = args->find(flutter::EncodableValue(key));
         if (it == args->end()) return false;
-        if (const auto* v = std::get_if<int64_t>(&it->second)) {
-          *out = *v;
+        if (const auto* vv = std::get_if<int64_t>(&it->second)) {
+          *out = *vv;
           return true;
         }
-        if (const auto* v = std::get_if<int32_t>(&it->second)) {
-          *out = *v;
+        if (const auto* vv = std::get_if<int32_t>(&it->second)) {
+          *out = *vv;
           return true;
         }
         return false;

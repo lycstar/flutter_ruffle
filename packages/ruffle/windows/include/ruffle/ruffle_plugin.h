@@ -1,12 +1,28 @@
 #ifndef FLUTTER_PLUGIN_RUFFLE_PLUGIN_H_
 #define FLUTTER_PLUGIN_RUFFLE_PLUGIN_H_
 
-namespace ruffle {
-struct FlutterDesktopPluginRegistrar;
-using FlutterDesktopPluginRegistrarRef = FlutterDesktopPluginRegistrar*;
+#ifdef _WIN32
+#include <flutter_plugin_registrar.h>
 
-void RufflePluginRegisterWithRegistrar(FlutterDesktopPluginRegistrarRef registrar);
+#ifdef FLUTTER_PLUGIN_IMPL
+#define FLUTTER_PLUGIN_EXPORT __declspec(dllexport)
+#else
+#define FLUTTER_PLUGIN_EXPORT __declspec(dllimport)
+#endif
+#else
+typedef void* FlutterDesktopPluginRegistrarRef;
+#define FLUTTER_PLUGIN_EXPORT
+#endif
 
-}  // namespace ruffle
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+FLUTTER_PLUGIN_EXPORT void RufflePluginRegisterWithRegistrar(
+    FlutterDesktopPluginRegistrarRef registrar);
+
+#if defined(__cplusplus)
+}  // extern "C"
+#endif
 
 #endif  // FLUTTER_PLUGIN_RUFFLE_PLUGIN_H_
