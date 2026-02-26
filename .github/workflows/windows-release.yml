@@ -1,0 +1,137 @@
+name: Windows Release Build
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '要构建的 Git 标签（例如 v1.0.0）'
+        required: true
+        type: string
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout (tag push)
+        if: github.event_name == 'push'
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Checkout (manual tag)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          submodules: recursive
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install FVM
+        shell: pwsh
+        run: |
+          dart pub global activate fvm
+          $pubCacheBin = Join-Path $env:LOCALAPPDATA 'Pub\Cache\bin'
+          Add-Content -Path $env:GITHUB_PATH -Value $pubCacheBin
+
+      - name: Install Flutter (FVM)
+        shell: pwsh
+        run: |
+          fvm install 3.35.7
+          fvm use 3.35.7 --force
+          fvm flutter --version
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+
+      - name: Build Windows + Installer (inline)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          # 解析 pubspec.yaml 的版本号（去掉 +build）
+          $raw = Get-Content -Path 'pubspec.yaml' -Raw -ErrorAction SilentlyContinue
+          if (-not $raw) { throw 'pubspec.yaml not found or unreadable' }
+          $m = [regex]::Match($raw, '(?m)^\s*version\s*:\s*([^\s#]+)')
+          if (-not $m.Success) { throw 'version not found in pubspec.yaml' }
+          $version = $m.Groups[1].Value
+          if ($version.Contains('+')) { $version = $version.Split('+')[0] }
+
+          # 更新 Inno Setup 脚本中的 MyAppVersion
+          $issPath = 'windows_inno_setup.iss'
+          if (-not (Test-Path $issPath)) { throw "ISS script not found: $issPath" }
+          $text = Get-Content -Path $issPath -Raw
+          $pattern = '(?m)^#define\s+MyAppVersion\s+"[^"]+"'
+          if ([regex]::IsMatch($text, $pattern)) {
+            $newDefine = '#define MyAppVersion "' + $version + '"'
+            $updated = [regex]::Replace($text, $pattern, $newDefine)
+            Set-Content -Path $issPath -Value $updated -Encoding UTF8
+          } else {
+            Write-Warning "MyAppVersion define not found in $issPath; skipping version update."
+          }
+
+          # 执行 Flutter 构建（release）
+          fvm flutter config --enable-windows-desktop
+          fvm flutter pub get
+          fvm flutter build windows --release
+          if ($LASTEXITCODE -ne 0) { throw "Flutter build failed with exit code $LASTEXITCODE" }
+
+          $repoRoot = (Get-Location).Path
+          $releaseDir = Join-Path $repoRoot 'build/windows/x64/runner/Release'
+          if (-not (Test-Path $releaseDir)) { throw "Release dir not found: $releaseDir" }
+
+          # 打包 ZIP（Release 目录）
+          $zipName = 'flutter_ruffle-windows-x64-' + $version + '.zip'
+          $zipPath = Join-Path (Get-Location).Path $zipName
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          Compress-Archive -Path (Join-Path $releaseDir '*') -DestinationPath $zipPath
+
+          # 运行 Inno Setup 生成安装器
+          $iscc = (Get-Command ISCC.exe -ErrorAction SilentlyContinue)?.Path
+          if (-not $iscc) {
+            $isccAlt = 'C:\\Program Files\\Inno Setup 6\\ISCC.exe'
+            $isccX86 = 'C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe'
+            if (Test-Path $isccAlt) { $iscc = $isccAlt }
+            elseif (Test-Path $isccX86) { $iscc = $isccX86 }
+            else { throw 'ISCC.exe not found in PATH or expected locations' }
+          }
+          & $iscc $issPath
+          if ($LASTEXITCODE -ne 0) { throw "ISCC failed with exit code $LASTEXITCODE" }
+
+      - name: Publish GitHub Release (push)
+        if: github.event_name == 'push'
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          artifacts: 'flutter_ruffle-windows-x64-*.zip,flutter_ruffle-windows-x64-setup-*.exe'
+          allowUpdates: true
+          generateReleaseNotes: true
+          draft: false
+          replacesArtifacts: true
+
+      - name: Publish GitHub Release (manual tag)
+        if: github.event_name == 'workflow_dispatch'
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ inputs.tag }}
+          artifacts: 'flutter_ruffle-windows-x64-*.zip,flutter_ruffle-windows-x64-setup-*.exe'
+          allowUpdates: true
+          generateReleaseNotes: true
+          draft: false
+          replacesArtifacts: true

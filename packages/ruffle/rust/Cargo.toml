@@ -1,0 +1,30 @@
+[package]
+name = "ruffle"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+anyhow = "1"
+flutter_rust_bridge = "=2.11.1"
+ruffle_core = { path = "../third_party/ruffle/core", features = ["audio", "mp3", "aac", "nellymoser"] }
+ruffle_frontend_utils = { path = "../third_party/ruffle/frontend-utils", default-features = false, features = ["navigator", "cpal"] }
+ruffle_render = { path = "../third_party/ruffle/render" }
+ruffle_render_wgpu = { path = "../third_party/ruffle/render/wgpu" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync"] }
+url = "2"
+
+[target.'cfg(target_os = "android")'.dependencies]
+async-channel = "2"
+indexmap = "2"
+jni = "0.21"
+libc = "0.2"
+ndk = { version = "0.9", features = ["audio"] }
+ndk-context = "0.1"
+ndk-sys = "0.6"
+raw-window-handle = "0.6"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

@@ -1,0 +1,122 @@
+name: Android Release Build
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '要构建的 Git 标签（例如 v1.0.0）'
+        required: true
+        type: string
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GRADLE_OPTS: -Dorg.gradle.vfs.watch=false
+
+    steps:
+      - name: Checkout (tag push)
+        if: github.event_name == 'push'
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Checkout (manual tag)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          submodules: recursive
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install FVM
+        run: |
+          dart pub global activate fvm
+          echo "${HOME}/.pub-cache/bin" >> "${GITHUB_PATH}"
+
+      - name: Install Flutter (FVM)
+        run: |
+          fvm install 3.35.7
+          fvm use 3.35.7 --force
+          fvm flutter --version
+
+      - name: Prepare Android Signing (secrets)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p android
+          if [[ -z "${{ secrets.KEYSTORE_BASE64 }}" ]]; then
+            echo "Missing secret: KEYSTORE_BASE64" >&2
+            exit 1
+          fi
+          if [[ -z "${{ secrets.ANDROID_STORE_PASSWORD }}" ]]; then
+            echo "Missing secret: ANDROID_STORE_PASSWORD" >&2
+            exit 1
+          fi
+          if [[ -z "${{ secrets.ANDROID_KEY_ALIAS }}" ]]; then
+            echo "Missing secret: ANDROID_KEY_ALIAS" >&2
+            exit 1
+          fi
+          if [[ -z "${{ secrets.ANDROID_KEY_PASSWORD }}" ]]; then
+            echo "Missing secret: ANDROID_KEY_PASSWORD" >&2
+            exit 1
+          fi
+
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/flutter_ruffle-release.jks
+          cat > android/key.properties << 'EOF'
+          storeFile=flutter_ruffle-release.jks
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          EOF
+
+      - name: Pub Get
+        run: fvm flutter pub get
+
+      - name: Build APK
+        run: fvm flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --release --tree-shake-icons
+
+      - name: Build AAB
+        run: fvm flutter build appbundle --release --tree-shake-icons
+
+      - name: Publish GitHub Release (push)
+        if: github.event_name == 'push'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          token: ${{ github.token }}
+          artifacts: 'build/app/outputs/flutter-apk/*.apk,build/app/outputs/bundle/release/*.aab'
+          allowUpdates: true
+          generateReleaseNotes: true
+          draft: false
+          replacesArtifacts: true
+
+      - name: Publish GitHub Release (manual tag)
+        if: github.event_name == 'workflow_dispatch'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ inputs.tag }}
+          token: ${{ github.token }}
+          artifacts: 'build/app/outputs/flutter-apk/*.apk,build/app/outputs/bundle/release/*.aab'
+          allowUpdates: true
+          generateReleaseNotes: true
+          draft: false
+          replacesArtifacts: true
