@@ -40,7 +40,9 @@ jobs:
           java-version: "17"
 
       - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: nightly-2025-10-01
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1

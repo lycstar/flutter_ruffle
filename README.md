@@ -43,6 +43,8 @@ Prerequisites:
 
 - Flutter is managed via FVM. Use `fvm flutter` instead of `flutter`.
 - Git submodules are used for third-party sources.
+- Rust toolchain: `packages/ruffle` uses a pinned nightly toolchain (see `packages/ruffle/rust/rust-toolchain.toml`).
+- Ruffle is pinned by git submodule commit (not automatically tracking upstream). Update intentionally by changing the submodule commit in this repository.
 
 Commands:
 
@@ -113,6 +115,8 @@ Flutter Ruffle 是一个基于 Flutter 的跨平台 Flash（SWF）播放器，�
 
 - Flutter 通过 FVM 管理，请使用 `fvm flutter`。
 - 三方源码使用 Git submodule 管理。
+- Rust 工具链：`packages/ruffle` 使用固定版本的 nightly（见 `packages/ruffle/rust/rust-toolchain.toml`）。
+- Ruffle 通过 git submodule 的 commit 固定（不会自动跟随上游变化），需要手动更新本仓库记录的 submodule commit 才会升级。
 
 常用命令：
 

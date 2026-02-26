@@ -2,7 +2,6 @@
 
 #ifdef _WIN32
 
-// This must be included before many other Windows headers.
 #include <windows.h>
 
 #include <flutter/method_channel.h>
@@ -179,10 +178,10 @@ class RuffleTexturePlugin : public flutter::Plugin {
         result->Error("bad_args", "dispose textureId 缺失");
         return;
       }
-      if (const auto* vv = std::get_if<int64_t>(&it->second)) {
-        texture_id = *vv;
-      } else if (const auto* vv = std::get_if<int32_t>(&it->second)) {
-        texture_id = *vv;
+      if (const auto* vv64 = std::get_if<int64_t>(&it->second)) {
+        texture_id = *vv64;
+      } else if (const auto* vv32 = std::get_if<int32_t>(&it->second)) {
+        texture_id = *vv32;
       } else {
         result->Error("bad_args", "dispose textureId 类型错误");
         return;
