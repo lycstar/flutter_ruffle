@@ -1,7 +1,3 @@
 [submodule "packages/ruffle/third_party/ruffle"]
 	path = packages/ruffle/third_party/ruffle
 	url = https://github.com/ruffle-rs/ruffle.git
-
-[submodule "ruffle-android"]
-	path = ruffle-android
-	url = https://github.com/ruffle-rs/ruffle-android.git

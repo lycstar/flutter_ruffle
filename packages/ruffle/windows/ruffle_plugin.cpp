@@ -179,10 +179,10 @@ class RuffleTexturePlugin : public flutter::Plugin {
         result->Error("bad_args", "dispose textureId 缺失");
         return;
       }
-      if (const auto* v = std::get_if<int64_t>(&it->second)) {
-        texture_id = *v;
-      } else if (const auto* v = std::get_if<int32_t>(&it->second)) {
-        texture_id = *v;
+      if (const auto* vv = std::get_if<int64_t>(&it->second)) {
+        texture_id = *vv;
+      } else if (const auto* vv = std::get_if<int32_t>(&it->second)) {
+        texture_id = *vv;
       } else {
         result->Error("bad_args", "dispose textureId 类型错误");
         return;

@@ -46,6 +46,7 @@ migrate_working_dir/
 **/*.keystore
 **/google-services.json
 **/GoogleService-Info.plist
+ruffle-android/
 
 # Symbolication related
 app.*.symbols
