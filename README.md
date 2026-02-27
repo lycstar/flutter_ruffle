@@ -6,7 +6,11 @@
 
 ## English
 
-Flutter Ruffle is a cross-platform Flash (SWF) player built with Flutter, powered by the Rust-based [Ruffle](https://github.com/ruffle-rs/ruffle) runtime.
+Flutter Ruffle is a small, experimental Flutter wrapper around the Rust-based [Ruffle](https://github.com/ruffle-rs/ruffle) runtime.
+
+This repository is primarily a simple implementation/proof-of-concept. Large parts of the code were generated with AI assistance, so stability and correctness are not guaranteed. Please use at your own risk.
+
+The UI is inspired by [ruffle-android](https://github.com/ruffle-rs/ruffle-android).
 
 ### Features
 
@@ -15,6 +19,15 @@ Flutter Ruffle is a cross-platform Flash (SWF) player built with Flutter, powere
 - Desktop offscreen rendering with Flutter Texture (PixelBuffer).
 - Platform-surface rendering where available (e.g. iOS/macOS/Android).
 - Basic safety UX for network behaviors (e.g. confirm before allowing SWF socket connections).
+
+### Screenshots
+
+<table>
+  <tr>
+    <td><img src="screenshot/home.png" width="320" /></td>
+    <td><img src="screenshot/player.png" width="320" /></td>
+  </tr>
+</table>
 
 ### Supported Platforms
 
@@ -35,7 +48,7 @@ This project wraps the Ruffle engine into a Flutter app via an FFI plugin:
 - **FFI bridge**: implemented with `flutter_rust_bridge` in the `ruffle` plugin package.
 - **Rendering paths**:
   - **Platform surface mode** (iOS/macOS/Android): the native side renders into a platform surface (e.g. CoreAnimation layer or ANativeWindow).
-  - **Offscreen mode** (Windows/Linux): the native side renders RGBA frames; Flutter displays them using a desktop texture (PixelBuffer) and signals frame availability via the texture registrar.
+  - **Offscreen mode** (Windows/Linux): a simple path that captures RGBA frames on the native side and shows them in Flutter via `Texture`/PixelBuffer (channel: `ruffle/texture`).
 
 ### Build & Run
 
@@ -78,7 +91,11 @@ This repository integrates upstream projects (e.g. Ruffle). Licensing follows th
 
 ## 中文
 
-Flutter Ruffle 是一个基于 Flutter 的跨平台 Flash（SWF）播放器，底层运行时由 Rust 实现的 [Ruffle](https://github.com/ruffle-rs/ruffle) 提供。
+Flutter Ruffle 是一个基于 Flutter 的 [Ruffle](https://github.com/ruffle-rs/ruffle) 简单封装（偏实验性质）。
+
+本仓库主要用于做一个“能跑起来”的简单实现/概念验证，代码大量由 AI 辅助生成，稳定性与正确性不做保证，请自行评估风险后使用。
+
+界面参考 [ruffle-android](https://github.com/ruffle-rs/ruffle-android)。
 
 ### 功能特性
 
@@ -87,6 +104,15 @@ Flutter Ruffle 是一个基于 Flutter 的跨平台 Flash（SWF）播放器，�
 - 桌面端使用 Flutter Texture（PixelBuffer）进行离屏渲染显示。
 - 在支持的平台上走原生 Surface 渲染（例如 iOS/macOS/Android）。
 - 对部分网络行为提供基础安全交互（例如 SWF 发起 Socket 连接前弹窗确认）。
+
+### 截图
+
+<table>
+  <tr>
+    <td><img src="screenshot/home.png" width="320" /></td>
+    <td><img src="screenshot/player.png" width="320" /></td>
+  </tr>
+</table>
 
 ### 支持平台
 
@@ -107,7 +133,7 @@ Flutter Ruffle 是一个基于 Flutter 的跨平台 Flash（SWF）播放器，�
 - **FFI 桥接**：`packages/ruffle` 使用 `flutter_rust_bridge` 实现 Dart ↔ Rust 调用。
 - **两条渲染链路**：
   - **平台 Surface 模式**（iOS/macOS/Android）：原生侧直接渲染到平台提供的 Surface（如 CoreAnimation Layer、ANativeWindow）。
-  - **离屏模式**（Windows/Linux）：原生侧输出 RGBA 帧，Flutter 侧用桌面 Texture（PixelBuffer）展示，并通过 TextureRegistrar 通知新帧可用。
+  - **离屏模式**（Windows/Linux）：比较简单的实现：原生侧抓取 RGBA 帧，通过 `Texture`/PixelBuffer（通道：`ruffle/texture`）在 Flutter 中显示。
 
 ### 构建与运行
 

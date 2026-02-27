@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:math' as math;
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +46,8 @@ class _PlayerPageState extends State<PlayerPage> with WidgetsBindingObserver {
   bool _surfacePlayerCreating = false;
   bool _offscreenPlayerCreating = false;
   bool _offscreenDecodeInFlight = false;
-  ui.Image? _offscreenImage;
+  int? _desktopTextureId;
+  bool _desktopTextureCreating = false;
   bool _workerReady = false;
   String? _storageBaseDirPath;
   VirtualGamepadConfigStore _gamepadStore = VirtualGamepadConfigStore.defaults();
@@ -275,8 +274,10 @@ class _PlayerPageState extends State<PlayerPage> with WidgetsBindingObserver {
     _pumpClock.stop();
     unawaited(_releaseAllPressedKeys());
     _focusNode.dispose();
-    _offscreenImage?.dispose();
-    _offscreenImage = null;
+    final textureId = _desktopTextureId;
+    if (textureId != null) {
+      unawaited(RuffleTexture.disposeTexture(textureId: textureId));
+    }
     final surfaceViewId = _surfaceViewId;
     if (surfaceViewId != null) {
       unawaited(RuffleSurface.disposeView(viewId: surfaceViewId));
@@ -540,7 +541,7 @@ class _PlayerPageState extends State<PlayerPage> with WidgetsBindingObserver {
     }
   }
 
-  /// 离屏渲染路径：tick 后如需渲染则抓取 RGBA，并在 UI 侧解码为 Image。
+  /// 平台 Surface 渲染路径：当 wgpu 报 `Invalid surface` 时尝试自动恢复。
   /// 当 wgpu 报 `Invalid surface` 时尝试自动恢复：
   /// - 重新拉取最新的 ANativeWindow 指针
   /// - 若指针变化则触发 Rust 侧重建 surface
@@ -587,7 +588,7 @@ class _PlayerPageState extends State<PlayerPage> with WidgetsBindingObserver {
     return scale.clamp(0.5, devicePixelRatio);
   }
 
-  /// 离屏渲染路径：tick 后如需渲染则抓取 RGBA，并在 UI 侧解码为 Image。
+  /// 离屏渲染路径：tick 后如需渲染则抓取 RGBA，并通过平台 PixelBufferTexture 通知 Flutter 刷新。
   Future<Map<String, Object?>> _pumpOffscreen({
     required double dtMillis,
   }) async {
@@ -613,40 +614,36 @@ class _PlayerPageState extends State<PlayerPage> with WidgetsBindingObserver {
 
     _offscreenDecodeInFlight = true;
     try {
+      await _ensureDesktopTextureReady();
+      final textureId = _desktopTextureId;
+      if (textureId == null) return result;
       final rgba = ttd.materialize().asUint8List();
-      final image = await _decodeRgbaToImage(
+      await RuffleTexture.updateRgba(
+        textureId: textureId,
         rgba: rgba,
         width: width,
         height: height,
       );
-      final old = _offscreenImage;
-      _offscreenImage = image;
-      old?.dispose();
-      if (mounted) {
-        setState(() {});
-      }
     } finally {
       _offscreenDecodeInFlight = false;
     }
     return result;
   }
 
-  /// 将 RGBA8888 像素缓冲解码为 ui.Image（用于 RawImage 显示）。
-  Future<ui.Image> _decodeRgbaToImage({
-    required Uint8List rgba,
-    required int width,
-    required int height,
-  }) {
-    final completer = Completer<ui.Image>();
-    ui.decodeImageFromPixels(
-      rgba,
-      width,
-      height,
-      ui.PixelFormat.rgba8888,
-      (image) => completer.complete(image),
-      rowBytes: width * 4,
-    );
-    return completer.future;
+  /// 确保桌面端 PixelBufferTexture 已创建，并在首次创建后触发一次重建以展示 `Texture` 组件。
+  Future<void> _ensureDesktopTextureReady() async {
+    if (_desktopTextureId != null) return;
+    if (_desktopTextureCreating) return;
+    _desktopTextureCreating = true;
+    try {
+      final id = await RuffleTexture.create();
+      _desktopTextureId = id;
+      if (mounted) {
+        setState(() {});
+      }
+    } finally {
+      _desktopTextureCreating = false;
+    }
   }
 
   /// 记录主循环帧时间戳（用于计算“主循环帧率”，不依赖 needsRender）。
@@ -1386,13 +1383,12 @@ class _PlayerPageState extends State<PlayerPage> with WidgetsBindingObserver {
               releaseAllPressedKeys: _releaseAllPressedKeys,
               child: _useSurface()
                   ? PlayerSurfaceView(onSurfaceReady: _onSurfaceReady)
-                  : (_offscreenImage == null
+                  : (_desktopTextureId == null
                         ? const Center(
                             child: CircularProgressIndicator.adaptive(),
                           )
-                        : RawImage(
-                            image: _offscreenImage,
-                            fit: BoxFit.fill,
+                        : Texture(
+                            textureId: _desktopTextureId!,
                             filterQuality: FilterQuality.none,
                           )),
             ),

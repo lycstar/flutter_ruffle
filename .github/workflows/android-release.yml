@@ -93,8 +93,11 @@ jobs:
       - name: Pub Get
         run: fvm flutter pub get
 
-      - name: Build APK
+      - name: Build APKs (split per ABI)
         run: fvm flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --release --tree-shake-icons
+
+      - name: Build APK (universal)
+        run: fvm flutter build apk --release --tree-shake-icons
 
       - name: Build AAB
         run: fvm flutter build appbundle --release --tree-shake-icons

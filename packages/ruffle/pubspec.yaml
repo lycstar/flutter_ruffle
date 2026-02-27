@@ -50,6 +50,7 @@ flutter:
         pluginClass: RufflePlugin
       linux:
         ffiPlugin: true
+        pluginClass: RufflePlugin
       macos:
         ffiPlugin: true
         pluginClass: RufflePlugin

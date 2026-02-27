@@ -3,11 +3,11 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  ruffle
   url_launcher_linux
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
-  ruffle
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

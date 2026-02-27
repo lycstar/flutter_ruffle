@@ -25,3 +25,38 @@ class RuffleSurface {
     });
   }
 }
+
+class RuffleTexture {
+  static const MethodChannel _channel = MethodChannel('ruffle/texture');
+
+  /// 在平台侧创建一个可用于 Flutter `Texture` Widget 显示的 PixelBufferTexture，并返回 textureId。
+  static Future<int> create() async {
+    final id = await _channel.invokeMethod<int>('create');
+    if (id == null) {
+      throw StateError('create 返回为空');
+    }
+    return id;
+  }
+
+  /// 将一帧 RGBA8888 像素缓冲更新到指定 textureId，并通知平台侧新帧可用。
+  static Future<void> updateRgba({
+    required int textureId,
+    required Uint8List rgba,
+    required int width,
+    required int height,
+  }) async {
+    await _channel.invokeMethod<void>('update_rgba', {
+      'textureId': textureId,
+      'rgba': rgba,
+      'width': width,
+      'height': height,
+    });
+  }
+
+  /// 释放平台侧纹理资源，并注销该 textureId。
+  static Future<void> disposeTexture({required int textureId}) async {
+    await _channel.invokeMethod<void>('dispose', {
+      'textureId': textureId,
+    });
+  }
+}
