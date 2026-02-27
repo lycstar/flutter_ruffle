@@ -1,6 +1,8 @@
 /// This is copied from Cargokit (which is the official way to use it currently)
 /// Details: https://fzyzcjy.github.io/flutter_rust_bridge/manual/integrate/builtin
 
+import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
@@ -19,6 +21,35 @@ enum BuildConfiguration {
   debug,
   release,
   profile,
+}
+
+/// Reads a pinned Rust toolchain channel from `rust-toolchain.toml` or
+/// `rust-toolchain` in [manifestDir].
+String? readPinnedRustToolchainChannel(String manifestDir) {
+  final toolchainToml = File(path.join(manifestDir, 'rust-toolchain.toml'));
+  if (toolchainToml.existsSync()) {
+    final contents = toolchainToml.readAsStringSync();
+    final match = RegExp(r'^\s*channel\s*=\s*"([^"]+)"\s*$',
+            multiLine: true)
+        .firstMatch(contents);
+    final channel = match?.group(1);
+    if (channel != null && channel.trim().isNotEmpty) {
+      return channel.trim();
+    }
+  }
+
+  final toolchain = File(path.join(manifestDir, 'rust-toolchain'));
+  if (toolchain.existsSync()) {
+    final line = toolchain
+        .readAsLinesSync()
+        .map((e) => e.trim())
+        .firstWhereOrNull((e) => e.isNotEmpty);
+    if (line != null && line.isNotEmpty) {
+      return line;
+    }
+  }
+
+  return null;
 }
 
 extension on BuildConfiguration {
@@ -122,8 +153,8 @@ class RustBuilder {
     if (rustup.installedTargets(toolchain) == null) {
       rustup.installToolchain(toolchain);
     }
-    if (toolchain == 'nightly') {
-      rustup.installRustSrcForNightly();
+    if (toolchain == 'nightly' || toolchain.startsWith('nightly-')) {
+      rustup.installRustSrc(toolchain: toolchain);
     }
     if (!rustup.installedTargets(toolchain)!.contains(target.rust)) {
       rustup.installTarget(target.rust, toolchain: toolchain);
@@ -133,7 +164,9 @@ class RustBuilder {
   CargoBuildOptions? get _buildOptions =>
       environment.crateOptions.cargo[environment.configuration];
 
-  String get _toolchain => _buildOptions?.toolchain.name ?? 'stable';
+  String get _toolchain =>
+      readPinnedRustToolchainChannel(environment.manifestDir) ??
+      (_buildOptions?.toolchain.name ?? 'stable');
 
   /// Returns the path of directory containing build artifacts.
   Future<String> build() async {

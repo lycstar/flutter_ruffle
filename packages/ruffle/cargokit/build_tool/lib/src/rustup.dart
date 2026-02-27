@@ -100,18 +100,20 @@ class Rustup {
     return lines;
   }
 
-  bool _didInstallRustSrcForNightly = false;
+  final Set<String> _didInstallRustSrcForToolchains = {};
 
-  void installRustSrcForNightly() {
-    if (_didInstallRustSrcForNightly) {
+  /// Installs the `rust-src` component for the given [toolchain].
+  void installRustSrc({
+    required String toolchain,
+  }) {
+    if (_didInstallRustSrcForToolchains.contains(toolchain)) {
       return;
     }
-    // Useful for -Z build-std
     runCommand(
       "rustup",
-      ['component', 'add', 'rust-src', '--toolchain', 'nightly'],
+      ['component', 'add', 'rust-src', '--toolchain', toolchain],
     );
-    _didInstallRustSrcForNightly = true;
+    _didInstallRustSrcForToolchains.add(toolchain);
   }
 
   static String? executablePath() {
